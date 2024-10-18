@@ -11,7 +11,7 @@ from aloha.network_node import NetWorkNode
 class MemberNode(NetWorkNode):
     pilha: Stack
     time: int
-    my_rash: int
+    my_hash: int
     
     def __init__(self, main_network, node_index, generate_interval, transm_prob):
         super().__init__()
@@ -25,6 +25,7 @@ class MemberNode(NetWorkNode):
         self.pilha = Stack()
         self.my_hash = 0
         self.time = 0
+        self.status_head_node = Status.IDLE
         #self.share_id()
         
     def get_pilha(self):
@@ -82,11 +83,12 @@ class MemberNode(NetWorkNode):
         """
         Send data to the network
         """    
-        if self.get_pilha().length() > 0 and self.my_hash == self.get_pilha().get_head() and len(self.buffer) > 0:
+        if self.get_pilha().length() > 0 and self.my_hash == self.get_pilha().get_head() and len(self.buffer) > 0 and self.status_head_node == Status.IDLE:
             log_info(self.main_network, self.node_index, Status.TRANSMITING, currtime=currtime)
             self.Status = Status.TRANSMITING
         else:               
             #log_info(self.main_network, self.node_index, Status.IDLE)
+            self.Status = Status.IDLE
             self.get_pilha().clear()
 
     def receive(self, data):
@@ -130,5 +132,8 @@ class MemberNode(NetWorkNode):
     def share_id(self):
         self.main_network.head_node.receive_id_nodes(str(self.node_index) + self.main_network.network_name)
 
+    def receive_status(self, status):
+        self.status_head_node = status
+    
     def __str__(self):
         return f"MemberNode {self.node_index}"

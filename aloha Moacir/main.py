@@ -12,8 +12,8 @@ def main(*args, **kwargs):
         "head_node_generate": False,
         "head_node_coin": True, # Girar moeda significa escolher se o pacote será enviado ou não
         # "member_node_coin": False, # Criei agora, daqui a pouco a gente arruma no código
-        "max_loop": 5, # Número de geração de Pacotes
-        "key": False, # Chave para criar e remover nós na rede
+        "max_loop": 30, # Número de geração de Pacotes
+        "key": False, # Chave para criar e remover nós na rede durante a execução
         "qtd_add": 2, #Quantidade de nós novos
         "qtd_rem": 1, #Quantidade de nós removidos
         "updates": True, #Defini se o protocolo irá funcionar com as melhorias

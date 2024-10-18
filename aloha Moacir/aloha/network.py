@@ -157,16 +157,16 @@ class Network:
     
     def call_submits(self, slot_index, subnet_list, time_sleep):
         for subnet in subnet_list:
+            subnet.head_node.submit(currtime=slot_index)
             for node in subnet.members:
                 node.submit(currtime=slot_index)              
             status = subnet.get_submission_status()
-            subnet.notify(status, currtime=slot_index)                     
-            subnet.head_node.submit(currtime=slot_index+1)                                                                                
+            subnet.notify(status, currtime=slot_index)                                                                                                     
             if status == Status.NODE_COLLISION:
                 time.sleep(time_sleep)       
         # Analyse main network collision
         status = self.get_submission_status()
-        self.notify(status, currtime=slot_index+1)    
+        self.notify(status, currtime=slot_index)    
         if status == Status.NODE_COLLISION:
             time.sleep(time_sleep)
         

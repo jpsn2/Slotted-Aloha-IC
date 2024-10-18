@@ -57,10 +57,12 @@ class HeadNode(NetWorkNode):
         if submit_condition and self.my_hash == self.get_pilha().get_head():
             log_info(self.subnet, "HEAD_NODE", Status.TRANSMITING, currtime=currtime)
             self.Status = Status.TRANSMITING
+            self.shared_status()
         else:
             #log_info(self.subnet, "HEAD_NODE", Status.IDLE, currtime=currtime)
             self.get_pilha().clear()
-            #self.Status = Status.IDLE
+            self.Status = Status.IDLE
+            self.shared_status()    
 
     def receive(self, data):
         """
@@ -125,6 +127,10 @@ class HeadNode(NetWorkNode):
                 if not self.get_pilha().contains(int_hash):
                     self.get_pilha().push(int_hash)
         self.get_pilha().sorted_stack()
+        
+    def shared_status(self):
+        for node in self.subnet.members:
+            node.receive_status(self.Status)
 
     def __str__(self):
         return "Head Node"

@@ -77,14 +77,14 @@ class Aloha:
             
             if self.updates:
                 head_node.share_id()
-            log_info(subnet, None, Status.CONFIGURATION_NETWORK)
-            log(subnet, None, Status.CONFIGURATION_NETWORK, time=0)
+            #log_info(subnet, None, Status.CONFIGURATION_NETWORK)
+            log(subnet, (head_node.name + " | " + str(i)), Status.CONFIGURATION_NETWORK, time=0)
 
         if self.generate_interval < 0:
             self.generate_packets(0)
         
         self.operational_time += 1
-        log_info(self.main_network, None, Status.CONFIGURATION_NETWORK)
+        #log_info(self.main_network, None, Status.CONFIGURATION_NETWORK)
         log(self.main_network, None, Status.CONFIGURATION_NETWORK, time=0)
         
         return self
@@ -110,7 +110,7 @@ class Aloha:
 
     def analyse(self):
         columns = ["timestamp", "network", "node", "type", "message", "time"]
-        log_df = pd.read_csv("data/aloha.log", skiprows=1, header=None)
+        log_df = pd.read_csv("data/aloha.log", skiprows=None, header=None)
         log_df.columns = columns
         log_df["type"] = log_df["type"].str.strip()
 
