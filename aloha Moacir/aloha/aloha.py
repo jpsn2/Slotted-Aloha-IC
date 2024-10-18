@@ -28,13 +28,13 @@ class Aloha:
         self.generate_interval = generate_interval
         self.nodes_per_subnet = nodes_per_subnet
         self.subnets = subnets
-        self.loops = max_loop
+        self.loops = nodes_per_subnet + max_loop
         self.head_node_generate = head_node_generate
         self.head_node_coin = head_node_coin
         self.time_sleep = time_sleep
         self.operational_time = 0
         #self.slot_range = self.nodes_per_subnet * 3 * (self.generate_interval ** 2) + 1
-        self.slot_range = self.loops * self.generate_interval + 1
+        self.slot_range = self.loops * self.generate_interval + 1 + self.nodes_per_subnet
         self.key = key
         self.qtd_add = qtd_add
         self.updates = updates
@@ -135,27 +135,27 @@ class Aloha:
         if "IDLE" not in df.columns:
             df["IDLE"] = 0
         else:
-            df["IDLE"] = (df["IDLE"] * 100) / self.operational_time
+            df["IDLE"] = (df["IDLE"] * 100) / (self.operational_time + self.nodes_per_subnet)
 
         if "SUCCESS" not in df.columns:
             df["SUCCESS"] = 0
         else:
-            df["SUCCESS"] = (df["SUCCESS"] * 100) / self.operational_time
+            df["SUCCESS"] = (df["SUCCESS"] * 100) / (self.operational_time + self.nodes_per_subnet)
 
         if "PARTIAL_NODE_COLISION" not in df.columns:
             df["PARTIAL_NODE_COLISION"] = 0
         else:
-            df["PARTIAL_NODE_COLISION"] = (df["PARTIAL_NODE_COLISION"] * 100) / self.operational_time
+            df["PARTIAL_NODE_COLISION"] = (df["PARTIAL_NODE_COLISION"] * 100) / (self.operational_time + self.nodes_per_subnet)
 
         if "NODE_COLLISION" not in df.columns:
             df["NODE_COLLISION"] = 0
         else:
-            df["NODE_COLLISION"] = (df["NODE_COLLISION"] * 100) / self.operational_time
+            df["NODE_COLLISION"] = (df["NODE_COLLISION"] * 100) / (self.operational_time + self.nodes_per_subnet)
 
         if "CONFIGURATION_NETWORK" not in df.columns:
             df["CONFIGURATION_NETWORK"] = 0
         else:
-            df["CONFIGURATION_NETWORK"] = (df["CONFIGURATION_NETWORK"] * 100) / self.operational_time
+            df["CONFIGURATION_NETWORK"] = ((df["CONFIGURATION_NETWORK"] + self.nodes_per_subnet) * 100) / (self.operational_time + self.nodes_per_subnet)
         
         if "GENERATING_PACKAGES" not in df.columns:
             df["GENERATING_PACKAGES"] = 0
@@ -164,8 +164,8 @@ class Aloha:
             df["COLLISION"] = df["PARTIAL_NODE_COLISION"] + \
                 df["NODE_COLLISION"]      
       
-        df["BUSY"] = df["COLLISION"]+ df["SUCCESS"] + df["CONFIGURATION_NETWORK"]     
-        df["THROUGHPUT"] = (df["SUCCESS"] / (df["IDLE"] + df["BUSY"])) * 100
+        """ df["BUSY"] = df["COLLISION"]+ df["SUCCESS"] + df["CONFIGURATION_NETWORK"]     
+        df["THROUGHPUT"] = (df["SUCCESS"] / (df["IDLE"] + df["BUSY"])) * 100 """
 
         print(df)
         df.to_csv("data/metrics.csv")

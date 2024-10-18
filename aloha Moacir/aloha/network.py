@@ -170,10 +170,10 @@ class Network:
         if status == Status.NODE_COLLISION:
             time.sleep(time_sleep)
         
-        return 1
+        #return 1
     
     def start_network(self, subnet_list, key, qtd_add, qtd_rem):
-        slot_index = 1
+        slot_index = self.nodes_per_subnet + 1
         last_generated = 0
         operational_time = 0
         slot_enlace = self.get_slot_enlace()
@@ -204,7 +204,7 @@ class Network:
                             slot_index += 1
                             break   
                     operational_time += self.execute_thread(self.generate_packets, slot_index, subnet_list)                      
-                    slot_index += self.call_submits(slot_index=slot_index, subnet_list=subnet_list, time_sleep=time_sleep)               
+                    self.call_submits(slot_index=slot_index, subnet_list=subnet_list, time_sleep=time_sleep)               
                     last_generated += 1
                     slot_index += 1
                     bar()
@@ -214,7 +214,7 @@ class Network:
                         self.add_member(key=key, qtd=qtd_add, subnet_list=subnet_list, node_index=self.nodes_per_subnet, slot_index=slot_index, time_sleep=time_sleep)
                     if slot_index == (range_generated - 3) and key: 
                         self.remove_member(subnet_list, qtd_rem, slot_index=slot_index, time_sleep=time_sleep)        
-                slot_index += self.call_submits(slot_index=slot_index, subnet_list=subnet_list, time_sleep=time_sleep)    
+                self.call_submits(slot_index=slot_index, subnet_list=subnet_list, time_sleep=time_sleep)    
                 operational_time += 1               
                 slot_index += 1
                 bar()

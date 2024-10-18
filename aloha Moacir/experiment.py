@@ -33,14 +33,14 @@ for i in tqdm(range(experiments)):
 
 # Calculando média
 df = pd.concat(dataframes)
-print(df.groupby("network").agg({"THROUGHPUT": "mean"}))
-print("___"*10)
+""" print(df.groupby("network").agg({"THROUGHPUT": "mean"})) """
+""" print("___"*10) """
 print(df.groupby("network").agg({"SUCCESS": "mean"}))
 print("___"*10)
 print(df.groupby("network").agg({"IDLE": "mean"}))
 print("___"*10)
-print(df.groupby("network").agg({"BUSY": "mean"}))
-print("___"*10)
+""" print(df.groupby("network").agg({"BUSY": "mean"}))
+print("___"*10) """
 print(df.groupby("network").agg({"COLLISION": "mean"}))
 print("___"*10)
 print(df.groupby("network").agg({"CONFIGURATION_NETWORK": "mean"}))
