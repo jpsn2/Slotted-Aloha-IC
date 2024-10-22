@@ -159,6 +159,8 @@ class Aloha:
         
         if "GENERATING_PACKAGES" not in df.columns:
             df["GENERATING_PACKAGES"] = 0
+        else:
+            df["GENERATING_PACKAGES"] = df["GENERATING_PACKAGES"] / self.nodes_per_subnet
 
         if "COLLISION" not in df.columns:
             df["COLLISION"] = df["PARTIAL_NODE_COLISION"] + \
