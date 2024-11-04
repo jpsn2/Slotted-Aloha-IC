@@ -9,7 +9,7 @@ from datetime import datetime
 dataframes = []
 
 # Quantidade de experimentos
-experiments = 30
+experiments = 11
 
 start = datetime.now()
 # Realizando experimentos

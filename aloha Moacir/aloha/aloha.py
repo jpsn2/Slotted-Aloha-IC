@@ -132,35 +132,37 @@ class Aloha:
             .fillna(0)
         )
         
+        sub_slots = (self.slot_range - (df["CONFIGURATION_NETWORK"] + self.nodes_per_subnet)) * (1/100)
+        
         if "IDLE" not in df.columns:
             df["IDLE"] = 0
         else:
-            df["IDLE"] = (df["IDLE"] * 100) / (self.operational_time + self.nodes_per_subnet)
+            df["IDLE"] = (df["IDLE"] * 100) * (99/100)/ ((self.operational_time * (99/100)) + self.nodes_per_subnet + sub_slots)
 
         if "SUCCESS" not in df.columns:
             df["SUCCESS"] = 0
         else:
-            df["SUCCESS"] = (df["SUCCESS"] * 100) / (self.operational_time + self.nodes_per_subnet)
+            df["SUCCESS"] = (df["SUCCESS"] * 100) * (99/100) / ((self.operational_time * (99/100)) + self.nodes_per_subnet + sub_slots)
 
         if "PARTIAL_NODE_COLISION" not in df.columns:
             df["PARTIAL_NODE_COLISION"] = 0
         else:
-            df["PARTIAL_NODE_COLISION"] = (df["PARTIAL_NODE_COLISION"] * 100) / (self.operational_time + self.nodes_per_subnet)
+            df["PARTIAL_NODE_COLISION"] = (df["PARTIAL_NODE_COLISION"] * 100) * (99/100)/ ((self.operational_time * (99/100)) + self.nodes_per_subnet + sub_slots)
 
         if "NODE_COLLISION" not in df.columns:
             df["NODE_COLLISION"] = 0
         else:
-            df["NODE_COLLISION"] = (df["NODE_COLLISION"] * 100) / (self.operational_time + self.nodes_per_subnet)
+            df["NODE_COLLISION"] = (df["NODE_COLLISION"] * 100) * (99/100)/ ((self.operational_time * (99/100)) + self.nodes_per_subnet + sub_slots)
 
         if "CONFIGURATION_NETWORK" not in df.columns:
             df["CONFIGURATION_NETWORK"] = 0
         else:
-            df["CONFIGURATION_NETWORK"] = ((df["CONFIGURATION_NETWORK"] + self.nodes_per_subnet) * 100) / (self.operational_time + self.nodes_per_subnet)
+            df["CONFIGURATION_NETWORK"] = ((df["CONFIGURATION_NETWORK"] + self.nodes_per_subnet + sub_slots) * 100)/ ((self.operational_time * (99/100)) + self.nodes_per_subnet + sub_slots)
         
         if "GENERATING_PACKAGES" not in df.columns:
             df["GENERATING_PACKAGES"] = 0
         else:
-            df["GENERATING_PACKAGES"] = df["GENERATING_PACKAGES"] / self.nodes_per_subnet
+            df["GENERATING_PACKAGES"] = (df["GENERATING_PACKAGES"] / self.nodes_per_subnet) * (df["SUCCESS"] / 100) 
 
         if "COLLISION" not in df.columns:
             df["COLLISION"] = df["PARTIAL_NODE_COLISION"] + \
