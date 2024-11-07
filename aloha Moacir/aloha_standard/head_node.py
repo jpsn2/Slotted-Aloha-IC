@@ -15,6 +15,7 @@ class HeadNodeStandard(NetWorkNode):
         self.subnet = subnet
         self.buffer = []
         self.transmission_prob = transm_prob
+        self.name = "Head Node"
 
     def generate(self):
         """
